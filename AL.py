@@ -9,15 +9,21 @@ import sqlite3
 import gc
 
 class AL:
+    BASE_WIKI = 'data/wiki'
+    wiki_db = BASE_WIKI+'/documents'
+    embedding_index = BASE_WIKI+'embeddings'
+    top1_embedding = 'data/top1_embeddings.pickle'
+    random_embedding = 'data/randoms_embeddings.pickle'
+
     def __init__(self):
-        self.hugDB = sqlite3.connect("data/wiki", check_same_thread=False)
-        self.index = faiss.read_index('data/embeddings')
+        self.hugDB = sqlite3.connect(AL.wiki_db, check_same_thread=False)
+        self.index = faiss.read_index(AL.embedding_index)
         self.index.make_direct_map()
         self.X_pool, self.X_random = self.load_features()
 
     def load_features(self):
-        if not os.path.exists('data/top1_embeddings.pickle') or not os.path.exists('data/randoms_embeddings.pickle'):
-
+        if not os.path.exists(AL.top1_embedding) or not os.path.exists(AL.top1_embedding):
+            print ('Loading features, this will take a while')
             # All
             perc = pd.read_sql_query(f"select indexid, documents.id, data from documents INNER JOIN sections ON sections.id = documents.id", self.hugDB).set_index(['id', 'indexid'])['data'].astype('str').str.replace('{"percentile": ','',regex=False).str.replace('}','',regex=False).astype(float)
 
@@ -27,24 +33,24 @@ class AL:
             for _, r in top.iterrows():
                 top_e[r['id']] = self.index.reconstruct(r['indexid'])
             del top
-            pd.DataFrame(top_e).transpose().to_pickle('data/top1_embeddings.pickle')
+            pd.DataFrame(top_e).transpose().to_pickle(AL.top1_embedding)
             del top_e
 
             # Export random ones
-            rand = pd.DataFrame(perc.index.tolist(), columns=['id', 'indexid']).sample(50000)
+            rand = pd.DataFrame(perc.index.tolist(), columns=['id', 'indexid']).sample(100000)
             del perc
 
             rand_e = {}
             for _, r in rand.iterrows():
                 rand_e[r['id']] = self.index.reconstruct(r['indexid'])
             del rand
-            pd.DataFrame(rand_e).transpose().to_pickle('data/randoms_embeddings.pickle')
+            pd.DataFrame(rand_e).transpose().to_pickle(AL.random_embedding)
 
             del rand_e
             gc.collect()
 
 
-        return pd.read_pickle('data/top1_embeddings.pickle'), pd.read_pickle('data/randoms_embeddings.pickle')
+        return pd.read_pickle(AL.top1_embedding), pd.read_pickle(AL.random_embedding)
 
 
     def load_model(self, training_annotations, test_annotations):
