@@ -8,3 +8,4 @@ numpy==1.24.3
 pandas==2.0.1
 scikit_learn==1.2.2
 txtai==5.5.1
+gunicorn

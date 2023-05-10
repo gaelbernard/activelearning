@@ -12,7 +12,7 @@ from txtai.embeddings import Embeddings
 
 embeddings = Embeddings()
 
-if not os.path.exists(AL.wiki_db):
+if not os.path.exists(AL.WIKI_DB):
     print ('downloading wiki db, this will take a while (~6go)')
     embeddings.load(provider="huggingface-hub", container="neuml/txtai-wikipedia")
     embeddings.save(AL.BASE_WIKI)
@@ -24,7 +24,7 @@ t = time.time()
 app = Flask(__name__)
 CORS(app)
 
-hugDB = sqlite3.connect(AL.wiki_db, check_same_thread=False)
+hugDB = sqlite3.connect(AL.WIKI_DB, check_same_thread=False)
 
 limit = 30000000000000000
 
