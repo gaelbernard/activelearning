@@ -10,6 +10,7 @@ import os
 import time
 from txtai.embeddings import Embeddings
 
+#ENTRYPOINT ["gunicorn", "app:app", "--bind", "0.0.0.0:5008", "--timeout", "10000"]
 embeddings = Embeddings()
 
 if not os.path.exists(AL.WIKI_DB):
