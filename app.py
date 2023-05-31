@@ -38,8 +38,7 @@ al = AL()
 
 @app.route('/')
 def index():
-   return render_template('test.html')
-
+   return render_template('index.html')
 
 def searchName(q):
 
