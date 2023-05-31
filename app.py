@@ -38,7 +38,7 @@ al = AL()
 
 @app.route('/')
 def index():
-   return render_template('index.html')
+   return render_template('test.html')
 
 
 def searchName(q):
@@ -104,5 +104,5 @@ def train():
 
 
 if __name__ == '__main__':
-   app.run(port=5008, host='0.0.0.0', threaded=True)
+   app.run(port=5008)
 
