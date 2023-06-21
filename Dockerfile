@@ -12,5 +12,5 @@ COPY . .
 
 EXPOSE 5008
 
-ENTRYPOINT ["gunicorn", "app:app", "--bind", "0.0.0.0:5008", "--timeout", "1200", "--workers", "4"]
+ENTRYPOINT ["gunicorn", "app:app", "--bind", "0.0.0.0:5008", "--timeout", "1200", "--threads", "4"]
 
