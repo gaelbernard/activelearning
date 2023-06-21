@@ -1,7 +1,7 @@
 faiss_cpu==1.7.4
 Flask==2.3.2
 Flask_Cors==3.0.10
-modAL
+modAL-python
 nltk==3.8.1
 numpy==1.21.0
 pandas==2.0.1
