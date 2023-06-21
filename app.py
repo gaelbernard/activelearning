@@ -40,6 +40,10 @@ al = AL()
 def index():
    return render_template('index.html')
 
+@app.route('/hello')
+def index():
+   return render_template('hello.html')
+
 def searchName(q):
 
     global entire_wiki_id
