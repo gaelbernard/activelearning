@@ -18,7 +18,7 @@ if not os.path.exists(AL.WIKI_DB):
     embeddings.load(provider="huggingface-hub", container="neuml/txtai-wikipedia")
     embeddings.save(AL.BASE_WIKI)
     print ('Wiki was downloaded')
-else: #modAL==0.4.1
+else:
     embeddings.load(AL.BASE_WIKI)
 
 t = time.time()
