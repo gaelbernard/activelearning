@@ -41,7 +41,7 @@ def index():
    return render_template('index.html')
 
 @app.route('/hello')
-def index():
+def hello():
    return render_template('hello.html')
 
 def searchName(q):
