@@ -4,7 +4,7 @@ import pandas as pd
 from itertools import islice
 from nltk import edit_distance
 from AL import AL
-from flask import Flask, redirect, render_template, request, send_from_directory, url_for
+from flask import Flask, redirect, render_template, request, send_from_directory, url_for, send_static_file
 from flask_cors import CORS
 import os
 import time
@@ -39,6 +39,10 @@ al = AL()
 @app.route('/')
 def index():
    return render_template('index.html')
+
+@app.route('/hello2')
+def hello2():
+   return send_static_file('index.html')
 
 @app.route('/hello')
 def hello():
